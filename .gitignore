@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+badges/replicated/visualization/models/*
+badges/replicated/visualization/cache/*
+badges/replicated/visualization/.vscode/*
+badges/replicated/visualization/__pycache__/*
+report/report.aux
+report/report.out
+report/report.synctex.gz
+badges/reproduced/visualization/rename.py
