@@ -137,3 +137,4 @@ report/report.aux
 report/report.out
 report/report.synctex.gz
 badges/reproduced/visualization/rename.py
+badges/new-code-variant/visualization/.vscode/launch.json

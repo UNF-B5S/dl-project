@@ -7,7 +7,6 @@ import math
 import matplotlib.pyplot as plt
 import nltk
 import os
-from numpy import append
 import string
 import torch
 import transformers
@@ -93,16 +92,14 @@ print("# Loading model and tokenizer")
 weights = torch.load(args.model, map_location=torch.device('cpu'))
 bert_config = transformers.BertConfig.from_pretrained(args.type, output_hidden_states=True, cache_dir=cache)
 bert_model = transformers.BertForQuestionAnswering.from_pretrained(args.type, state_dict=weights, config=bert_config, cache_dir=cache)
-bert_tokenizer = transformers.BertTokenizer.from_pretrained(args.type, cache_dir=cache) # ToDo: do_lower_case
-bert_max_seq_length = 384 # ToDo: max. 384 immer bei BERT?
+bert_tokenizer = transformers.BertTokenizer.from_pretrained(args.type, cache_dir=cache)
+bert_max_seq_length = 384
 
 # Step 3) Processing
 print("# Processing data")
 question_tokens = []
 for i, token in enumerate(bert_tokenizer.tokenize(sample_json['question'])):
     question_tokens.append(QuestionToken(token, i))
-
-# ToDo: max_query_length?
 
 # Tokenize each word to put it into BERT's format
 subtokens_count = 0
@@ -118,8 +115,6 @@ context_all_subtokens = []
 for token in sample_context_tokens:
     for subtoken in token.subtokens:
         context_all_subtokens.append(subtoken)
-
-# ToDo: _improve_answer_span ?
 
 max_tokens = bert_max_seq_length - len(question_tokens) - 3 # 3 => 1x[CLS], 2x[SEP] need to be added to the token
 context_windows = []
@@ -221,7 +216,6 @@ for (window_index, window) in enumerate(context_windows):
     predictions = []
     for start_logit in bert_output_start_logits:
         for end_logit in bert_output_end_logits:
-            # ToDo: max_answer_length = 30 ???
             if end_logit[0] < start_logit[0] or start_logit[0] >= len(result.tokens) or end_logit[0] >= len(result.tokens) or (end_logit[0] - start_logit[0] +1) > 30:
                 continue
 
