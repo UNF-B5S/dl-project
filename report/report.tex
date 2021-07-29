@@ -4,6 +4,14 @@
 \usepackage{pdfpages}
 \usepackage{hyperref}
 
+\hypersetup{
+	hidelinks,
+	backref,
+	pdftex,
+	pdfauthor={Kevin Kässens and Enno Teßmer},
+	pdftitle={Project Report: How does BERT answer questions?}
+}
+
 \title{Project Report: How does BERT answer questions?}
 \author{Kevin Kässens, Enno Teßmer}
 \date{Deep Learning 2021}
@@ -27,7 +35,7 @@
 	\begin{tabular}{ l p{0.85\linewidth} }
 		Question: & What is a common punishment in the UK and Ireland? \\
 		Answer: & detention \\
-		Context: & Currently detention is one of the most common punishments in schools in the United States, the UK, Ireland, Singapore and other countries. It requires the pupil to remain in school at a given time in the school day (such as lunch, recess or after school); or even to attend school on a non-school day, e.g. \"Saturday detention\" held at some schools. During detention, students normally have to sit in a classroom and do work, write lines or a punishment essay, or sit quietly. \\
+		Context: & Currently detention is one of the most common punishments in schools in the United States, the UK, Ireland, Singapore and other countries. It requires the pupil to remain in school at a given time in the school day (such as lunch, recess or after school); or even to attend school on a non-school day, e.g. "Saturday detention" held at some schools. During detention, students normally have to sit in a classroom and do work, write lines or a punishment essay, or sit quietly. \\
 	\end{tabular}
 	
 	\begin{center}
@@ -95,7 +103,9 @@
 	
 	With the documentation of the Jiant Probing Suite being rather sparsely, we were not able to find a solution to our problem or make any other progress on our own.\\
 	
-	We tried using the new version of the Jiant Probing Suite as well. But we had no luck with this version either.
+	We tried using the new version of the Jiant Probing Suite as well. But we had no luck with this version either.\\
+	
+	After over 40 hours of unsuccessfully trying to set-up Jiant, we decided it would be more promising for us to work on other badges instead.
 	
 	\section{Replicated}
 	\subsection{Visualization}
@@ -128,7 +138,7 @@
 	
 	Although the script implements a sliding window approach to handle such inputs, it always processes the first window that it generates.
 	
-	The reason for that is in the data\_utils.py script. In the function “convert\_qa\_example\_to\_features“ starting at line 226, the windows are generated. After that a for-loop is used to iterate through all windows (line 239). But at the end of this loop, a return statement always terminates the loop (line 359). There are no continue-statements in the loop either, so the loop always terminates after the first iteration by returning the first window.
+	The reason for that is in the data\_utils.py script. In the function “convert\_qa\_example\_to\_features“ starting at line 226, the windows are generated. After that a for-loop is used to iterate through all windows (line 239). But at the end of this loop, a return statement always terminates the loop (line 359). There are no continue statements prior to the return statement in the loop either, so the loop always terminates after the first iteration by returning the first window.
 	
 	If the answer is not within this window, the script prints that the given example is impossible and creates useless visualizations.\\
 	
@@ -136,9 +146,9 @@
 	
 	To achieve that, all windows will be processed and given to BERT. Eventually, only the window where BERT’s prediction has the highest probability will be visualized. 
 	
-	You can find our modified code in ./badges/new-code-variant/visualization. All placed where we modified or added some code are marked with a comment starting with "\# ADDED", as well as a short explanation of what we did.\\
+	You can find our modified code in ./badges/new-code-variant/visualization. All places where we modified or added some code are marked with a comment starting with "\# ADDED", as well as a short explanation of what we did.\\
 	
-	To reproduce this experiment, we created an additional sample, "sample\_squad\_long.json". This sample contains an excerpt from the Wikipedia article about Gottfried Wilhelm Leibniz at the beginning of the context, so no information that is relevant for the question "What is a common punishment in the UK and Ireland?".
+	To reproduce this experiment, we created an additional sample, "sample\_squad\_long.json". You can find it in the folder ./badges/new-code-variant/visualization. This sample contains an excerpt from the Wikipedia article about Gottfried Wilhelm Leibniz at the beginning of the context, so no information that is relevant for the question "What is a common punishment in the UK and Ireland?".
 	
 	While the original script, given this sample, does not create useful results, our modified script is able to give the correct answer ("detention") to the question.
 	
